@@ -1,8 +1,8 @@
+import { Profile } from "@/types/profile";
 import { Question } from "@/types/question";
 import { parseEther } from "viem";
 import EntityList from "../entity-list";
 import { QuestionCard } from "./question-card";
-import { Profile } from "@/types/profile";
 
 export function QuestionList(props: {
   profile: Profile;

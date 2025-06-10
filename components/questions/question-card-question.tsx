@@ -1,10 +1,10 @@
-import { Metadata } from "@/types/metadata";
 import { Profile } from "@/types/profile";
+import { QuestionMetadata } from "@/types/question-metadata";
 import Image from "next/image";
 import Link from "next/link";
 
 export function QuestionCardQuestion(props: {
-  questionMetadata: Metadata;
+  questionMetadata: QuestionMetadata;
   askerProfile: Profile;
 }) {
   const questionText = props.questionMetadata.attributes?.find(

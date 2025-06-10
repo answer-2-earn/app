@@ -3,9 +3,9 @@ import { chainConfig } from "@/config/chain";
 import useError from "@/hooks/use-error";
 import { useUpProvider } from "@/hooks/use-up-provider";
 import { getEncodedQuestionMetadataValue } from "@/lib/metadata";
-import { Metadata } from "@/types/metadata";
 import { Profile } from "@/types/profile";
 import { Question } from "@/types/question";
+import { QuestionMetadata } from "@/types/question-metadata";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { ArrowRightIcon, Loader2Icon } from "lucide-react";
@@ -29,7 +29,7 @@ import { Textarea } from "../ui/textarea";
 export function QuestionCardAnswerForm(props: {
   profile: Profile;
   question: Question;
-  questionMetadata: Metadata;
+  questionMetadata: QuestionMetadata;
   onAnswer: () => void;
 }) {
   const { client, accounts, walletConnected } = useUpProvider();
@@ -79,16 +79,16 @@ export function QuestionCardAnswerForm(props: {
         ],
       };
 
-      // Upload metadata to IPFS
+      // Upload metadata to IPFS and get the URL
       const { data } = await axios.post("/api/ipfs", {
         data: JSON.stringify(updatedMetadata),
       });
-      const updatedMetadataUrl = data.data;
+      const updatedUrl = data.data;
 
       // Encode metadata to get the metadata value
       const encodedUpdatedMetadataValue = await getEncodedQuestionMetadataValue(
         updatedMetadata,
-        updatedMetadataUrl
+        updatedUrl
       );
 
       // Ask the question by calling the smart contract

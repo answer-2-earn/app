@@ -4,8 +4,8 @@ import { siteConfig } from "@/config/site";
 import useError from "@/hooks/use-error";
 import { useUpProvider } from "@/hooks/use-up-provider";
 import { getEncodedQuestionMetadataValue } from "@/lib/metadata";
-import { Metadata } from "@/types/metadata";
 import { Profile } from "@/types/profile";
+import { QuestionMetadata } from "@/types/question-metadata";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { ArrowRightIcon, Loader2Icon } from "lucide-react";
@@ -70,7 +70,7 @@ export function QuestionAskForm(props: {
       }
 
       // Create metadata
-      const metadata: Metadata = {
+      const metadata: QuestionMetadata = {
         name: "Question Token",
         description: "A token issued by the Answer 2 Earn project",
         external_url: siteConfig.links.github,
@@ -100,16 +100,16 @@ export function QuestionAskForm(props: {
         ],
       };
 
-      // Upload metadata to IPFS
+      // Upload metadata to IPFS and get the URL
       const { data } = await axios.post("/api/ipfs", {
         data: JSON.stringify(metadata),
       });
-      const metadataUrl = data.data;
+      const url = data.data;
 
       // Encode metadata to get the metadata value
       const encodedMetadataValue = await getEncodedQuestionMetadataValue(
         metadata,
-        metadataUrl
+        url
       );
 
       // Ask the question by calling the smart contract

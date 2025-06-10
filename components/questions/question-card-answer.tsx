@@ -1,15 +1,15 @@
-import { Metadata } from "@/types/metadata";
 import { Profile } from "@/types/profile";
+import { Question } from "@/types/question";
+import { QuestionMetadata } from "@/types/question-metadata";
 import { CheckIcon, HourglassIcon } from "lucide-react";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
 import { Separator } from "../ui/separator";
-import { Question } from "@/types/question";
 
 export function QuestionCardAnswer(props: {
   profile: Profile;
   question: Question;
-  questionMetadata: Metadata;
+  questionMetadata: QuestionMetadata;
 }) {
   const answerText = props.questionMetadata.attributes?.find(
     (attr) => attr.trait_type === "Answer"

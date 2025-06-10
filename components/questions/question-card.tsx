@@ -1,15 +1,15 @@
 import useError from "@/hooks/use-error";
 import { getQuestionMetadata } from "@/lib/metadata";
 import { getProfile } from "@/lib/profile";
-import { Metadata } from "@/types/metadata";
 import { Profile } from "@/types/profile";
 import { Question } from "@/types/question";
+import { QuestionMetadata } from "@/types/question-metadata";
 import { useEffect, useState } from "react";
 import { Address } from "viem";
 import { Skeleton } from "../ui/skeleton";
-import { QuestionCardQuestion } from "./question-card-question";
-import { QuestionCardAnswerForm } from "./question-card-answer-form";
 import { QuestionCardAnswer } from "./question-card-answer";
+import { QuestionCardAnswerForm } from "./question-card-answer-form";
+import { QuestionCardQuestion } from "./question-card-question";
 
 export function QuestionCard(props: {
   profile: Profile;
@@ -18,7 +18,7 @@ export function QuestionCard(props: {
 }) {
   const { handleError } = useError();
   const [questionMetadata, setQuestionMetadata] = useState<
-    Metadata | undefined
+    QuestionMetadata | undefined
   >();
   const [askerProfile, setAskerProfile] = useState<Profile | undefined>();
 

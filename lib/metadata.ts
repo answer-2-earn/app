@@ -1,12 +1,14 @@
 import { questionAbi } from "@/abi/question";
 import { chainConfig } from "@/config/chain";
 import { pinataIpfsToHttp } from "@/lib/ipfs";
-import { Metadata } from "@/types/metadata";
+import { QuestionMetadata } from "@/types/question-metadata";
 import ERC725 from "@erc725/erc725.js";
 import axios from "axios";
 import { createPublicClient, Hex, http } from "viem";
 
-export async function getQuestionMetadata(questionId: Hex): Promise<Metadata> {
+export async function getQuestionMetadata(
+  questionId: Hex
+): Promise<QuestionMetadata> {
   // Load metadata value from the contract
   const publicClient = createPublicClient({
     chain: chainConfig.chain,
@@ -50,12 +52,12 @@ export async function getQuestionMetadata(questionId: Hex): Promise<Metadata> {
   // Load metadata from IPFS
   const { data } = await axios.get(metadataHttpUrl);
 
-  return data as Metadata;
+  return data as QuestionMetadata;
 }
 
 export async function getEncodedQuestionMetadataValue(
-  metadata: Metadata,
-  metadataUrl: string
+  metadata: QuestionMetadata,
+  url: string
 ): Promise<Hex> {
   const schema = [
     {
@@ -72,7 +74,7 @@ export async function getEncodedQuestionMetadataValue(
       keyName: "LSP4Metadata",
       value: {
         json: metadata,
-        url: metadataUrl,
+        url: url,
       },
     },
   ]);
