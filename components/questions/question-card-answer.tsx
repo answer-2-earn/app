@@ -1,12 +1,14 @@
 import { Metadata } from "@/types/metadata";
 import { Profile } from "@/types/profile";
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, HourglassIcon } from "lucide-react";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
 import { Separator } from "../ui/separator";
+import { Question } from "@/types/question";
 
 export function QuestionCardAnswer(props: {
   profile: Profile;
+  question: Question;
   questionMetadata: Metadata;
 }) {
   const answerText = props.questionMetadata.attributes?.find(
@@ -41,8 +43,17 @@ export function QuestionCardAnswer(props: {
           </p>
           <h4 className="text-xl mt-1">{answerText}</h4>
           <Badge variant="secondary" className="mt-2">
-            <CheckIcon />
-            <p>Answer verified by AI</p>
+            {props.question.reward.sent ? (
+              <>
+                <CheckIcon />
+                <p>Answer verified by AI, reward sent</p>
+              </>
+            ) : (
+              <>
+                <HourglassIcon />
+                <p>Answer not verified by AI, reward not sent</p>
+              </>
+            )}
           </Badge>
         </div>
       </div>

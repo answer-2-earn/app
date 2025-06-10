@@ -62,10 +62,12 @@ export function QuestionCard(props: {
       <QuestionCardAnswerForm
         profile={props.profile}
         question={props.question}
+        questionMetadata={questionMetadata}
         onAnswer={props.onQuestionUpdate}
       />
       <QuestionCardAnswer
         profile={props.profile}
+        question={props.question}
         questionMetadata={questionMetadata}
       />
     </div>

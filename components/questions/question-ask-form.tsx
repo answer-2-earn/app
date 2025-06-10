@@ -1,4 +1,4 @@
-import { questionAbi } from "@/abi/question";
+import { questionManagerAbi } from "@/abi/question-manager";
 import { chainConfig } from "@/config/chain";
 import { siteConfig } from "@/config/site";
 import useError from "@/hooks/use-error";
@@ -36,9 +36,9 @@ export function QuestionAskForm(props: {
   profile: Profile;
   onAsk: () => void;
 }) {
+  const { client, accounts, walletConnected } = useUpProvider();
   const { handleError } = useError();
   const [isProsessing, setIsProsessing] = useState(false);
-  const { client, accounts, walletConnected } = useUpProvider();
 
   const formSchema = z.object({
     question: z.string().min(1),
@@ -119,8 +119,8 @@ export function QuestionAskForm(props: {
       });
       const { request } = await publicClient.simulateContract({
         account: accounts[0],
-        address: chainConfig.contracts.question,
-        abi: questionAbi,
+        address: chainConfig.contracts.questionManager,
+        abi: questionManagerAbi,
         functionName: "ask",
         args: [props.profile.address, encodedMetadataValue],
         value: parseEther(values.reward),
@@ -128,6 +128,7 @@ export function QuestionAskForm(props: {
       const hash = await client.writeContract(request);
       await publicClient.waitForTransactionReceipt({ hash });
 
+      // Reset the form and notify the user
       form.reset();
       props.onAsk();
       toast("Question posted 🎉");

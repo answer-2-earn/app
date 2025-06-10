@@ -389,93 +389,6 @@ export const questionAbi = [
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "answerer",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "bytes32",
-        name: "tokenId",
-        type: "bytes32",
-      },
-      {
-        indexed: false,
-        internalType: "bytes",
-        name: "metadataValue",
-        type: "bytes",
-      },
-    ],
-    name: "QuestionAnswered",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "asker",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "answerer",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "bytes32",
-        name: "tokenId",
-        type: "bytes32",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "value",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "bytes",
-        name: "metadataValue",
-        type: "bytes",
-      },
-    ],
-    name: "QuestionAsked",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "asker",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "bytes32",
-        name: "tokenId",
-        type: "bytes32",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "value",
-        type: "uint256",
-      },
-    ],
-    name: "QuestionCancelled",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
         internalType: "bytes32",
         name: "tokenId",
         type: "bytes32",
@@ -546,61 +459,6 @@ export const questionAbi = [
   {
     inputs: [
       {
-        internalType: "bytes32",
-        name: "tokenId",
-        type: "bytes32",
-      },
-      {
-        internalType: "bytes",
-        name: "metadataValue",
-        type: "bytes",
-      },
-    ],
-    name: "answer",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "answerer",
-        type: "address",
-      },
-      {
-        internalType: "bytes",
-        name: "metadataValue",
-        type: "bytes",
-      },
-    ],
-    name: "ask",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "bytes32",
-        name: "tokenId",
-        type: "bytes32",
-      },
-    ],
-    name: "askers",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "address",
         name: "operator",
         type: "address",
@@ -666,29 +524,15 @@ export const questionAbi = [
         name: "tokenId",
         type: "bytes32",
       },
+      {
+        internalType: "bytes",
+        name: "data",
+        type: "bytes",
+      },
     ],
-    name: "cancelQuestion",
+    name: "burn",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "bytes32",
-        name: "tokenId",
-        type: "bytes32",
-      },
-    ],
-    name: "getAsker",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {
@@ -799,37 +643,6 @@ export const questionAbi = [
   {
     inputs: [
       {
-        internalType: "bytes32",
-        name: "tokenId",
-        type: "bytes32",
-      },
-    ],
-    name: "getReward",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "value",
-            type: "uint256",
-          },
-          {
-            internalType: "bool",
-            name: "sent",
-            type: "bool",
-          },
-        ],
-        internalType: "struct Question.Reward",
-        name: "",
-        type: "tuple",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "address",
         name: "operator",
         type: "address",
@@ -925,30 +738,6 @@ export const questionAbi = [
     name: "revokeOperator",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "bytes32",
-        name: "tokenId",
-        type: "bytes32",
-      },
-    ],
-    name: "rewards",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "value",
-        type: "uint256",
-      },
-      {
-        internalType: "bool",
-        name: "sent",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {

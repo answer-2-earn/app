@@ -1,6 +1,7 @@
 "use client";
 
 import { questionAbi } from "@/abi/question";
+import { questionManagerAbi } from "@/abi/question-manager";
 import { HomeSection } from "@/components/home/home-section";
 import { LoadingSection } from "@/components/loading-section";
 import { chainConfig } from "@/config/chain";
@@ -41,8 +42,8 @@ export default function HomePage() {
       const questions: Question[] = [];
       for (const token of tokens) {
         const reward = await publicClient.readContract({
-          address: chainConfig.contracts.question,
-          abi: questionAbi,
+          address: chainConfig.contracts.questionManager,
+          abi: questionManagerAbi,
           functionName: "getReward",
           args: [token],
         });
@@ -54,6 +55,8 @@ export default function HomePage() {
           },
         });
       }
+
+      console.log("Loaded questions:", questions);
 
       setQuestions(questions);
     } catch (error) {
