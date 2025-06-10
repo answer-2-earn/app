@@ -3,7 +3,7 @@ export const siteConfig = {
   description:
     "Answer fan questions, earn LYX rewards — a LUKSO Mini-App with AI verification",
   links: {
-    github: "https://github.com/web3goals/answer-2-earn-prototype",
+    github: "https://github.com/answer-2-earn",
     twitter: "https://twitter.com/kiv1n",
   },
 };
