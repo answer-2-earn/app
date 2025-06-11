@@ -12,8 +12,8 @@ interface UpContextInterface {
   provider: UPClientProvider | null;
   client: ReturnType<typeof createWalletClient> | null;
   chainId: number;
-  accounts: Array<`0x${string}`>;
-  contextAccounts: Array<`0x${string}`>;
+  accounts: `0x${string}`[];
+  contextAccounts: `0x${string}`[];
   walletConnected: boolean;
 }
 
@@ -30,10 +30,8 @@ const provider =
 
 export function UpProvider({ children }: UpProviderProps) {
   const [chainId, setChainId] = useState<number>(0);
-  const [accounts, setAccounts] = useState<Array<`0x${string}`>>([]);
-  const [contextAccounts, setContextAccounts] = useState<Array<`0x${string}`>>(
-    []
-  );
+  const [accounts, setAccounts] = useState<`0x${string}`[]>([]);
+  const [contextAccounts, setContextAccounts] = useState<`0x${string}`[]>([]);
   const [walletConnected, setWalletConnected] = useState(false);
   const [account] = accounts ?? [];
   const [contextAccount] = contextAccounts ?? [];
@@ -61,7 +59,7 @@ export function UpProvider({ children }: UpProviderProps) {
         const _accounts = (await provider.request(
           "eth_accounts",
           []
-        )) as Array<`0x${string}`>;
+        )) as `0x${string}`[];
         if (!mounted) {
           return;
         }
@@ -87,12 +85,12 @@ export function UpProvider({ children }: UpProviderProps) {
     init();
 
     if (provider) {
-      const accountsChanged = (_accounts: Array<`0x${string}`>) => {
+      const accountsChanged = (_accounts: `0x${string}`[]) => {
         setAccounts(_accounts);
         setWalletConnected(_accounts[0] != null && contextAccount != null);
       };
 
-      const contextAccountsChanged = (_accounts: Array<`0x${string}`>) => {
+      const contextAccountsChanged = (_accounts: `0x${string}`[]) => {
         setContextAccounts(_accounts);
         setWalletConnected(account != null && _accounts[0] != null);
       };
