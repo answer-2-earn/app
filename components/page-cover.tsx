@@ -1,0 +1,62 @@
+import useError from "@/hooks/use-error";
+import { getProfile } from "@/lib/profile";
+import { Profile } from "@/types/profile";
+import { MenuIcon } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Button } from "./ui/button";
+import { Skeleton } from "./ui/skeleton";
+
+export function PageCover(props: {
+  contextAccount: `0x${string}`;
+  actionTitle: string;
+  actionLink: string;
+}) {
+  const { handleError } = useError();
+  const [profile, setProfile] = useState<Profile | undefined>();
+
+  useEffect(() => {
+    if (props.contextAccount) {
+      getProfile(props.contextAccount)
+        .then((profile) => setProfile(profile))
+        .catch((error) =>
+          handleError(error, "Failed to load profile, try again later")
+        );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.contextAccount]);
+
+  if (!profile) {
+    return <Skeleton className="h-8" />;
+  }
+
+  return (
+    <div className="bg-primary flex flex-col items-center p-8 rounded-2xl">
+      <div className="size-32 rounded-full overflow-hidden">
+        <Image
+          src={profile.image || "/images/user.png"}
+          alt={`${profile.name}'s profile picture`}
+          width={96}
+          height={96}
+          className="w-full h-full"
+        />
+      </div>
+      <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight text-center text-primary-foreground mt-4">
+        ASK ME ANYTHING
+      </h1>
+      <p className="text-center text-primary-foreground mt-1">
+        Higher reward → Higher visibility and motivation to answer
+      </p>
+      <div className="flex flex-row items-center gap-2 mt-8">
+        <Link href={props.actionLink}>
+          <Button variant="outline">{props.actionTitle}</Button>
+        </Link>
+        {/* TODO: Implement menu */}
+        <Button variant="outline">
+          <MenuIcon />
+        </Button>
+      </div>
+    </div>
+  );
+}

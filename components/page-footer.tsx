@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { Separator } from "../ui/separator";
+import { Separator } from "./ui/separator";
 
-export function HomeFooter() {
+export function PageFooter() {
   return (
     <div className="mt-8">
       <Separator />

@@ -4,10 +4,11 @@ import { siteConfig } from "@/config/site";
 import useError from "@/hooks/use-error";
 import { useUpProvider } from "@/hooks/use-up-provider";
 import { getEncodedQuestionMetadataValue } from "@/lib/metadata";
-import { Profile } from "@/types/profile";
+import { cn } from "@/lib/utils";
 import { QuestionMetadata } from "@/types/question-metadata";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import { ClassValue } from "clsx";
 import { ArrowRightIcon, Loader2Icon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -33,8 +34,9 @@ import {
 import { Textarea } from "../ui/textarea";
 
 export function QuestionAskForm(props: {
-  profile: Profile;
-  onAsk: () => void;
+  contextAccount: `0x${string}`;
+  onAsk: (txHash: `0x${string}`) => void;
+  className?: ClassValue;
 }) {
   const { client, accounts, walletConnected } = useUpProvider();
   const { handleError } = useError();
@@ -95,7 +97,7 @@ export function QuestionAskForm(props: {
           },
           {
             trait_type: "Answerer",
-            value: props.profile.address,
+            value: props.contextAccount,
           },
         ],
       };
@@ -122,16 +124,15 @@ export function QuestionAskForm(props: {
         address: chainConfig.contracts.questionManager,
         abi: questionManagerAbi,
         functionName: "ask",
-        args: [props.profile.address, encodedMetadataValue],
+        args: [props.contextAccount, encodedMetadataValue],
         value: parseEther(values.reward),
       });
-      const hash = await client.writeContract(request);
-      await publicClient.waitForTransactionReceipt({ hash });
+      const txHash = await client.writeContract(request);
+      await publicClient.waitForTransactionReceipt({ hash: txHash });
 
       // Reset the form and notify the user
       form.reset();
-      props.onAsk();
-      toast("Question posted 🎉");
+      props.onAsk(txHash);
     } catch (error) {
       handleError(error, "Failed to submit the form, try again later");
     } finally {
@@ -143,7 +144,7 @@ export function QuestionAskForm(props: {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="space-y-4 mt-8"
+        className={cn("space-y-4", props.className)}
       >
         <FormField
           control={form.control}
