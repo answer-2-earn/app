@@ -3,6 +3,7 @@ import { chainConfig } from "@/config/chain";
 import { siteConfig } from "@/config/site";
 import useError from "@/hooks/use-error";
 import { useUpProvider } from "@/hooks/use-up-provider";
+import { rewardToBadge } from "@/lib/converters";
 import { getEncodedQuestionMetadataValue } from "@/lib/metadata";
 import { cn } from "@/lib/utils";
 import { QuestionMetadata } from "@/types/question-metadata";
@@ -24,13 +25,7 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
+import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 
 export function QuestionAskForm(props: {
@@ -44,16 +39,20 @@ export function QuestionAskForm(props: {
 
   const formSchema = z.object({
     question: z.string().min(1),
-    reward: z.string().min(1),
+    reward: z.coerce.number().min(0),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       question: "",
-      reward: "0.01",
+      reward: 1.0,
     },
   });
+
+  const rewardBadge = rewardToBadge(
+    parseEther(form.watch("reward").toString())
+  );
 
   async function handleSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -93,7 +92,7 @@ export function QuestionAskForm(props: {
           },
           {
             trait_type: "Reward",
-            value: parseEther(values.reward).toString(),
+            value: parseEther(values.reward.toString()).toString(),
           },
           {
             trait_type: "Answerer",
@@ -125,12 +124,12 @@ export function QuestionAskForm(props: {
         abi: questionManagerAbi,
         functionName: "ask",
         args: [props.contextAccount, encodedMetadataValue],
-        value: parseEther(values.reward),
+        value: parseEther(values.reward.toString()),
       });
       const txHash = await client.writeContract(request);
       await publicClient.waitForTransactionReceipt({ hash: txHash });
 
-      // Reset the form and notify the user
+      // Reset the form and call the onAsk callback
       form.reset();
       props.onAsk(txHash);
     } catch (error) {
@@ -168,29 +167,28 @@ export function QuestionAskForm(props: {
           name="reward"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Reward *</FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                defaultValue={field.value}
-                disabled={isProsessing}
-              >
-                <FormControl className="w-full">
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a reward" />
-                  </SelectTrigger>
+              <FormLabel>
+                Reward ({chainConfig.chain.nativeCurrency.symbol}) *
+              </FormLabel>
+              <div className="flex flex-row gap-2 items-center">
+                {/* Input */}
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="0.01"
+                    disabled={isProsessing}
+                    {...field}
+                  />
                 </FormControl>
-                <SelectContent>
-                  <SelectItem value="0.01">
-                    🪙 — 0.01 {chainConfig.chain.nativeCurrency.symbol}
-                  </SelectItem>
-                  <SelectItem value="0.05">
-                    💰 — 0.05 {chainConfig.chain.nativeCurrency.symbol}
-                  </SelectItem>
-                  <SelectItem value="0.1">
-                    💎 — 0.1 {chainConfig.chain.nativeCurrency.symbol}
-                  </SelectItem>
-                </SelectContent>
-              </Select>
+                {/* Reward badge */}
+                <div
+                  className={cn(
+                    "h-full w-12 flex items-center justify-center bg-muted rounded-md"
+                  )}
+                >
+                  <p className="text-xl">{rewardBadge.emoji}</p>
+                </div>
+              </div>
               <FormMessage />
             </FormItem>
           )}

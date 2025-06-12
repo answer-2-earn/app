@@ -1,4 +1,6 @@
 import { AxiosError } from "axios";
+import { ClassValue } from "clsx";
+import { parseEther } from "viem";
 
 export function errorToString(error: unknown): string {
   let message = JSON.stringify(error, (key, value) =>
@@ -14,4 +16,19 @@ export function errorToString(error: unknown): string {
     });
   }
   return message;
+}
+
+export function rewardToBadge(reward: bigint): {
+  emoji: string;
+  className: ClassValue;
+} {
+  if (reward === BigInt(0)) {
+    return { emoji: "🙏", className: "bg-blue-500" };
+  } else if (reward <= parseEther("1")) {
+    return { emoji: "🪙", className: "bg-purple-500" };
+  } else if (reward <= parseEther("10")) {
+    return { emoji: "💰", className: "bg-yellow-500" };
+  } else {
+    return { emoji: "💎", className: "bg-orange-500" };
+  }
 }

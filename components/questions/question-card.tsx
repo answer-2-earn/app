@@ -56,6 +56,7 @@ export function QuestionCard(props: {
   return (
     <div className="w-full flex flex-col gap-4 border rounded-2xl p-4">
       <QuestionCardQuestion
+        question={props.question}
         questionMetadata={questionMetadata}
         askerProfile={askerProfile}
       />

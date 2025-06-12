@@ -1,9 +1,15 @@
+import { chainConfig } from "@/config/chain";
+import { rewardToBadge } from "@/lib/converters";
+import { cn } from "@/lib/utils";
 import { Profile } from "@/types/profile";
+import { Question } from "@/types/question";
 import { QuestionMetadata } from "@/types/question-metadata";
 import Image from "next/image";
 import Link from "next/link";
+import { formatEther } from "viem";
 
 export function QuestionCardQuestion(props: {
+  question: Question;
   questionMetadata: QuestionMetadata;
   askerProfile: Profile;
 }) {
@@ -13,6 +19,8 @@ export function QuestionCardQuestion(props: {
   const questionDate = props.questionMetadata.attributes?.find(
     (attr) => attr.trait_type === "Question Date"
   )?.value;
+
+  const rewardBadge = rewardToBadge(BigInt(props.question.reward.value));
 
   return (
     <div className="flex flex-row gap-4">
@@ -27,7 +35,8 @@ export function QuestionCardQuestion(props: {
         />
       </div>
       {/* Right part */}
-      <div className="flex-1">
+      <div className="flex-1 flex flex-col items-start">
+        {/* Asker link */}
         <Link
           href={`https://universaleverything.io/${props.askerProfile.address}`}
           target="_blank"
@@ -36,12 +45,22 @@ export function QuestionCardQuestion(props: {
             @{props.askerProfile.name}
           </p>
         </Link>
+        {/* Date */}
         <p className="text-muted-foreground text-sm">
           {new Date(questionDate as string).toLocaleString()}
         </p>
+        {/* Question */}
         <h4 className="text-xl font-semibold tracking-tight mt-1">
           {questionText}
         </h4>
+        {/* Reward badge */}
+        <div className={cn("rounded-md px-2 py-1 mt-2", rewardBadge.className)}>
+          <p className="text-white font-semibold text-sm">
+            {rewardBadge.emoji}{" "}
+            {formatEther(BigInt(props.question.reward.value))}{" "}
+            {chainConfig.chain.nativeCurrency.symbol}
+          </p>
+        </div>
       </div>
     </div>
   );
