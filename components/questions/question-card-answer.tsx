@@ -1,9 +1,7 @@
 import { Profile } from "@/types/profile";
 import { Question } from "@/types/question";
 import { QuestionMetadata } from "@/types/question-metadata";
-import { CheckIcon, HourglassIcon } from "lucide-react";
 import Image from "next/image";
-import { Badge } from "../ui/badge";
 import { Separator } from "../ui/separator";
 
 export function QuestionCardAnswer(props: {
@@ -37,24 +35,37 @@ export function QuestionCardAnswer(props: {
           />
         </div>
         {/* Right part */}
-        <div className="flex-1">
+        <div className="flex-1 flex flex-col items-start">
+          {/* Date */}
           <p className="text-muted-foreground text-sm">
             {new Date(answerDate as string).toLocaleString()}
           </p>
+          {/* Answer */}
           <h4 className="text-xl mt-1">{answerText}</h4>
-          <Badge variant="secondary" className="mt-2">
-            {props.question.reward.sent ? (
-              <>
-                <CheckIcon />
-                <p>Answer verified by AI, reward sent</p>
-              </>
-            ) : (
-              <>
-                <HourglassIcon />
-                <p>Answer not verified by AI, reward not sent</p>
-              </>
+          {/* Verified badge */}
+          {props.question.verification.verified &&
+            props.question.verification.status && (
+              <div className="bg-green-100 rounded-md px-2 py-1 mt-2">
+                <p className="text-sm text-green-500">✅ Verified by AI</p>
+              </div>
             )}
-          </Badge>
+          {/* Verification failed badge */}
+          {props.question.verification.verified &&
+            !props.question.verification.status && (
+              <div className="bg-red-100 rounded-md px-2 py-1 mt-2">
+                <p className="text-sm text-red-500">
+                  ❌ Verification by AI failed
+                </p>
+              </div>
+            )}
+          {/* Verification in progress badge */}
+          {!props.question.verification.verified && (
+            <div className="bg-yellow-100 rounded-md px-2 py-1 mt-2">
+              <p className="text-sm text-yellow-500">
+                ⌛ Verification by AI in progress
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

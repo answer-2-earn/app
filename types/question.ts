@@ -6,4 +6,8 @@ export type Question = {
     value: bigint;
     sent: boolean;
   };
+  verification: {
+    verified: boolean;
+    status: boolean;
+  };
 };
