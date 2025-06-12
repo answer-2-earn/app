@@ -258,6 +258,37 @@ export const questionManagerAbi = [
   {
     inputs: [
       {
+        internalType: "bytes32",
+        name: "tokenId",
+        type: "bytes32",
+      },
+    ],
+    name: "getVerification",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "bool",
+            name: "verified",
+            type: "bool",
+          },
+          {
+            internalType: "bool",
+            name: "status",
+            type: "bool",
+          },
+        ],
+        internalType: "struct QuestionManager.Verification",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "questionAddress",
         type: "address",
@@ -354,6 +385,30 @@ export const questionManagerAbi = [
     name: "transferQuestionOwnership",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "tokenId",
+        type: "bytes32",
+      },
+    ],
+    name: "verifications",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "verified",
+        type: "bool",
+      },
+      {
+        internalType: "bool",
+        name: "status",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
