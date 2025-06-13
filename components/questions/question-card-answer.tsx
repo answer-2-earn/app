@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Separator } from "../ui/separator";
 
 export function QuestionCardAnswer(props: {
-  profile: Profile;
+  answererProfile: Profile;
   question: Question;
   questionMetadata: QuestionMetadata;
 }) {
@@ -27,8 +27,8 @@ export function QuestionCardAnswer(props: {
         {/* Left part */}
         <div className="size-10 rounded-full overflow-hidden">
           <Image
-            src={props.profile.image || "/images/user.png"}
-            alt={`${props.profile.name}'s profile picture`}
+            src={props.answererProfile.image || "/images/user.png"}
+            alt={`${props.answererProfile.name}'s profile picture`}
             width={96}
             height={96}
             className="w-full h-full"

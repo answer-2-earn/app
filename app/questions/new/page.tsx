@@ -21,7 +21,7 @@ export default function AppNewQuestionPage() {
   return (
     <main className="container mx-auto px-4 py-4">
       <PageCover
-        contextAccount={contextAccounts[0]}
+        answererAddress={contextAccounts[0]}
         actionTitle="Questions"
         actionLink="/questions"
       />

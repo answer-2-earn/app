@@ -18,13 +18,13 @@ export default function AppQuestionsPage() {
     <main className="container mx-auto px-4 py-4">
       {/* TODO: Display action to enable notifications if connected account is answerer */}
       <PageCover
-        contextAccount={contextAccounts[0]}
+        answererAddress={contextAccounts[0]}
         actionTitle="Ask question"
         actionLink="/questions/new"
       />
       <p className="text-xl font-semibold tracking-tight mt-8">QUESTIONS</p>
       <Separator className="mt-2" />
-      <QuestionsTabs contextAccount={contextAccounts[0]} className="mt-4" />
+      <QuestionsTabs answererAddress={contextAccounts[0]} className="mt-4" />
       <PageFooter />
     </main>
   );

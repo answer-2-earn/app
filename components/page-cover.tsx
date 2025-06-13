@@ -9,25 +9,25 @@ import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
 
 export function PageCover(props: {
-  contextAccount: `0x${string}`;
+  answererAddress: `0x${string}`;
   actionTitle: string;
   actionLink: string;
 }) {
   const { handleError } = useError();
-  const [profile, setProfile] = useState<Profile | undefined>();
+  const [answererProfile, setAnswererProfile] = useState<Profile | undefined>();
 
   useEffect(() => {
-    if (props.contextAccount) {
-      getProfile(props.contextAccount)
-        .then((profile) => setProfile(profile))
+    if (props.answererAddress) {
+      getProfile(props.answererAddress)
+        .then((profile) => setAnswererProfile(profile))
         .catch((error) =>
-          handleError(error, "Failed to load profile, try again later")
+          handleError(error, "Failed to load answerer profile, try again later")
         );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.contextAccount]);
+  }, [props.answererAddress]);
 
-  if (!profile) {
+  if (!answererProfile) {
     return <Skeleton className="h-8" />;
   }
 
@@ -35,8 +35,8 @@ export function PageCover(props: {
     <div className="bg-primary flex flex-col items-center p-8 rounded-2xl">
       <div className="size-32 rounded-full overflow-hidden">
         <Image
-          src={profile.image || "/images/user.png"}
-          alt={`${profile.name}'s profile picture`}
+          src={answererProfile.image || "/images/user.png"}
+          alt={`${answererProfile.name}'s profile picture`}
           width={96}
           height={96}
           className="w-full h-full"

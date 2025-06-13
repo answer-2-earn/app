@@ -12,7 +12,7 @@ import { QuestionCardAnswerForm } from "./question-card-answer-form";
 import { QuestionCardQuestion } from "./question-card-question";
 
 export function QuestionCard(props: {
-  profile: Profile;
+  answererProfile: Profile;
   question: Question;
   onQuestionUpdate: () => void;
 }) {
@@ -61,13 +61,13 @@ export function QuestionCard(props: {
         askerProfile={askerProfile}
       />
       <QuestionCardAnswerForm
-        profile={props.profile}
+        answererProfile={props.answererProfile}
         question={props.question}
         questionMetadata={questionMetadata}
         onAnswer={props.onQuestionUpdate}
       />
       <QuestionCardAnswer
-        profile={props.profile}
+        answererProfile={props.answererProfile}
         question={props.question}
         questionMetadata={questionMetadata}
       />

@@ -27,7 +27,7 @@ import { Separator } from "../ui/separator";
 import { Textarea } from "../ui/textarea";
 
 export function QuestionCardAnswerForm(props: {
-  profile: Profile;
+  answererProfile: Profile;
   question: Question;
   questionMetadata: QuestionMetadata;
   onAnswer: () => void;
@@ -129,7 +129,7 @@ export function QuestionCardAnswerForm(props: {
   }
 
   // Don't show the form if the connected account is now the answerer
-  if (accounts[0] !== props.profile.address) {
+  if (accounts[0] !== props.answererProfile.address) {
     return <></>;
   }
 

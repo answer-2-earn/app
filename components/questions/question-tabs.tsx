@@ -17,11 +17,11 @@ import { processingStatusToType } from "@/lib/converters";
 
 // TODO: Sort questions by value
 export function QuestionsTabs(props: {
-  contextAccount: `0x${string}`;
+  answererAddress: `0x${string}`;
   className?: ClassValue;
 }) {
   const { handleError } = useError();
-  const [profile, setProfile] = useState<Profile | undefined>();
+  const [answererProfile, setAnswererProfile] = useState<Profile | undefined>();
   const [questions, setQuestions] = useState<Question[] | undefined>();
   const unansweredQuestions = questions?.filter(
     (question) => question.processingStatus !== "AnswerValidRewardSent"
@@ -41,7 +41,7 @@ export function QuestionsTabs(props: {
         address: chainConfig.contracts.question,
         abi: questionAbi,
         functionName: "tokenIdsOf",
-        args: [props.contextAccount],
+        args: [props.answererAddress],
       });
 
       // Load token rewards and create question array
@@ -73,22 +73,27 @@ export function QuestionsTabs(props: {
   }
 
   useEffect(() => {
-    if (props.contextAccount) {
-      getProfile(props.contextAccount)
-        .then((profile) => setProfile(profile))
+    if (props.answererAddress) {
+      getProfile(props.answererAddress)
+        .then((profile) => setAnswererProfile(profile))
         .catch((error) =>
           handleError(error, "Failed to load profile, try again later")
         );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.contextAccount]);
+  }, [props.answererAddress]);
 
   useEffect(() => {
     loadQuestions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.contextAccount]);
+  }, [props.answererAddress]);
 
-  if (!profile || !questions || !unansweredQuestions || !answeredQuestions) {
+  if (
+    !answererProfile ||
+    !questions ||
+    !unansweredQuestions ||
+    !answeredQuestions
+  ) {
     return <Skeleton className="h-8" />;
   }
 
@@ -109,7 +114,7 @@ export function QuestionsTabs(props: {
           renderEntityCard={(question, i) => (
             <QuestionCard
               key={i}
-              profile={profile}
+              answererProfile={answererProfile}
               question={question}
               onQuestionUpdate={() => loadQuestions()}
             />
@@ -123,7 +128,7 @@ export function QuestionsTabs(props: {
           renderEntityCard={(question, i) => (
             <QuestionCard
               key={i}
-              profile={profile}
+              answererProfile={answererProfile}
               question={question}
               onQuestionUpdate={() => loadQuestions()}
             />
@@ -137,7 +142,7 @@ export function QuestionsTabs(props: {
           renderEntityCard={(question, i) => (
             <QuestionCard
               key={i}
-              profile={profile}
+              answererProfile={answererProfile}
               question={question}
               onQuestionUpdate={() => loadQuestions()}
             />
