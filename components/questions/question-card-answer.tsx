@@ -43,23 +43,21 @@ export function QuestionCardAnswer(props: {
           {/* Answer */}
           <h4 className="text-xl mt-1">{answerText}</h4>
           {/* Verified badge */}
-          {props.question.verification.verified &&
-            props.question.verification.status && (
-              <div className="bg-green-100 rounded-md px-2 py-1 mt-2">
-                <p className="text-sm text-green-500">✅ Verified by AI</p>
-              </div>
-            )}
+          {props.question.processingStatus === "AnswerValidRewardSent" && (
+            <div className="bg-green-100 rounded-md px-2 py-1 mt-2">
+              <p className="text-sm text-green-500">✅ Verified by AI</p>
+            </div>
+          )}
           {/* Verification failed badge */}
-          {props.question.verification.verified &&
-            !props.question.verification.status && (
-              <div className="bg-red-100 rounded-md px-2 py-1 mt-2">
-                <p className="text-sm text-red-500">
-                  ❌ Verification by AI failed
-                </p>
-              </div>
-            )}
+          {props.question.processingStatus === "AnswerInvalid" && (
+            <div className="bg-red-100 rounded-md px-2 py-1 mt-2">
+              <p className="text-sm text-red-500">
+                ❌ Verification by AI failed
+              </p>
+            </div>
+          )}
           {/* Verification in progress badge */}
-          {!props.question.verification.verified && (
+          {props.question.processingStatus === "None" && (
             <div className="bg-yellow-100 rounded-md px-2 py-1 mt-2">
               <p className="text-sm text-yellow-500">
                 ⌛ Verification by AI in progress
