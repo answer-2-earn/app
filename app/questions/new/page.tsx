@@ -49,7 +49,7 @@ export default function AppNewQuestionPage() {
           </p>
           <Separator className="mt-2" />
           <QuestionAskForm
-            contextAccount={contextAccounts[0]}
+            answererAddress={contextAccounts[0]}
             onAsk={(txHash) => setTxHash(txHash)}
             className="mt-4"
           />

@@ -29,7 +29,7 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 
 export function QuestionAskForm(props: {
-  contextAccount: `0x${string}`;
+  answererAddress: `0x${string}`;
   onAsk: (txHash: `0x${string}`) => void;
   className?: ClassValue;
 }) {
@@ -96,7 +96,7 @@ export function QuestionAskForm(props: {
           },
           {
             trait_type: "Answerer",
-            value: props.contextAccount,
+            value: props.answererAddress,
           },
         ],
       };
@@ -123,7 +123,7 @@ export function QuestionAskForm(props: {
         address: chainConfig.contracts.questionManager,
         abi: questionManagerAbi,
         functionName: "ask",
-        args: [props.contextAccount, encodedMetadataValue],
+        args: [props.answererAddress, encodedMetadataValue],
         value: parseEther(values.reward.toString()),
       });
       const txHash = await client.writeContract(request);
