@@ -3,6 +3,8 @@ import { Question } from "@/types/question";
 import { QuestionMetadata } from "@/types/question-metadata";
 import Image from "next/image";
 import { Separator } from "../ui/separator";
+import { processingStatusToBadge } from "@/lib/converters";
+import { cn } from "@/lib/utils";
 
 export function QuestionCardAnswer(props: {
   answererProfile: Profile;
@@ -15,6 +17,9 @@ export function QuestionCardAnswer(props: {
   const answerDate = props.questionMetadata.attributes?.find(
     (attr) => attr.trait_type === "Answer Date"
   )?.value;
+  const processingStatusBadge = processingStatusToBadge(
+    props.question.processingStatus
+  );
 
   if (!answerText || !answerDate) {
     return <></>;
@@ -42,28 +47,17 @@ export function QuestionCardAnswer(props: {
           </p>
           {/* Answer */}
           <h4 className="text-xl mt-1">{answerText}</h4>
-          {/* Verified badge */}
-          {props.question.processingStatus === "AnswerValidRewardSent" && (
-            <div className="bg-green-100 rounded-md px-2 py-1 mt-2">
-              <p className="text-sm text-green-500">✅ Verified by AI</p>
-            </div>
-          )}
-          {/* Verification failed badge */}
-          {props.question.processingStatus === "AnswerInvalid" && (
-            <div className="bg-red-100 rounded-md px-2 py-1 mt-2">
-              <p className="text-sm text-red-500">
-                ❌ Verification by AI failed
-              </p>
-            </div>
-          )}
-          {/* Verification in progress badge */}
-          {props.question.processingStatus === "None" && (
-            <div className="bg-yellow-100 rounded-md px-2 py-1 mt-2">
-              <p className="text-sm text-yellow-500">
-                ⌛ Verification by AI in progress
-              </p>
-            </div>
-          )}
+          {/* Processing status badge */}
+          <div
+            className={cn(
+              "rounded-md px-2 py-1 mt-2",
+              processingStatusBadge.divClassName
+            )}
+          >
+            <p className={cn("text-sm", processingStatusBadge.pClassName)}>
+              {processingStatusBadge.title}
+            </p>
+          </div>
         </div>
       </div>
     </div>

@@ -34,6 +34,33 @@ export function rewardToBadge(reward: bigint): {
   }
 }
 
+export function processingStatusToBadge(status: QuestionProcessingStatus): {
+  title: string;
+  divClassName: ClassValue;
+  pClassName: ClassValue;
+} {
+  switch (status) {
+    case "AnswerValidRewardSent":
+      return {
+        title: "✅ Verified by AI",
+        divClassName: "bg-green-100",
+        pClassName: "text-green-500",
+      };
+    case "AnswerInvalid":
+      return {
+        title: "❌ Verification by AI failed",
+        divClassName: "bg-red-100",
+        pClassName: "text-red-500",
+      };
+    default:
+      return {
+        title: "⌛ Verification by AI in progress",
+        divClassName: "bg-yellow-100",
+        pClassName: "text-yellow-500",
+      };
+  }
+}
+
 export function processingStatusToType(
   status: number
 ): QuestionProcessingStatus {
