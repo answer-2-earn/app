@@ -20,7 +20,7 @@ export function QuestionCardQuestion(props: {
     (attr) => attr.trait_type === "Question Date"
   )?.value;
 
-  const rewardBadge = rewardToBadge(BigInt(props.question.reward.value));
+  const rewardBadge = rewardToBadge(BigInt(props.question.reward));
 
   return (
     <div className="flex flex-row gap-4">
@@ -56,8 +56,7 @@ export function QuestionCardQuestion(props: {
         {/* Reward badge */}
         <div className={cn("rounded-md px-2 py-1 mt-2", rewardBadge.className)}>
           <p className="text-white font-semibold text-sm">
-            {rewardBadge.emoji}{" "}
-            {formatEther(BigInt(props.question.reward.value))}{" "}
+            {rewardBadge.emoji} {formatEther(BigInt(props.question.reward))}{" "}
             {chainConfig.chain.nativeCurrency.symbol}
           </p>
         </div>
