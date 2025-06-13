@@ -13,6 +13,7 @@ import EntityList from "../entity-list";
 import { Skeleton } from "../ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { QuestionCard } from "./question-card";
+import { processingStatusToType } from "@/lib/converters";
 
 // TODO: Sort questions by value
 export function QuestionsTabs(props: {
@@ -22,6 +23,12 @@ export function QuestionsTabs(props: {
   const { handleError } = useError();
   const [profile, setProfile] = useState<Profile | undefined>();
   const [questions, setQuestions] = useState<Question[] | undefined>();
+  const unansweredQuestions = questions?.filter(
+    (question) => question.processingStatus !== "AnswerValidRewardSent"
+  );
+  const answeredQuestions = questions?.filter(
+    (question) => question.processingStatus === "AnswerValidRewardSent"
+  );
 
   async function loadQuestions() {
     try {
@@ -46,22 +53,16 @@ export function QuestionsTabs(props: {
           functionName: "getReward",
           args: [token],
         });
-        const verification = await publicClient.readContract({
+        const processingStatus = await publicClient.readContract({
           address: chainConfig.contracts.questionManager,
           abi: questionManagerAbi,
-          functionName: "getVerification",
+          functionName: "getProcessingStatus",
           args: [token],
         });
         questions.push({
           id: token,
-          reward: {
-            value: reward.value,
-            sent: reward.sent,
-          },
-          verification: {
-            verified: verification.verified,
-            status: verification.status,
-          },
+          reward: reward,
+          processingStatus: processingStatusToType(processingStatus),
         });
       }
 
@@ -87,7 +88,7 @@ export function QuestionsTabs(props: {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.contextAccount]);
 
-  if (!profile || !questions) {
+  if (!profile || !questions || !unansweredQuestions || !answeredQuestions) {
     return <Skeleton className="h-8" />;
   }
 
@@ -96,12 +97,10 @@ export function QuestionsTabs(props: {
       <TabsList>
         <TabsTrigger value="all">All ({questions.length})</TabsTrigger>
         <TabsTrigger value="unanswered">
-          Unanswered (
-          {questions.filter((question) => !question.reward.sent).length})
+          Unanswered ({unansweredQuestions.length})
         </TabsTrigger>
         <TabsTrigger value="answered">
-          Answered (
-          {questions.filter((question) => question.reward.sent).length})
+          Answered ({answeredQuestions.length})
         </TabsTrigger>
       </TabsList>
       <TabsContent value="all">
@@ -120,7 +119,7 @@ export function QuestionsTabs(props: {
       </TabsContent>
       <TabsContent value="unanswered">
         <EntityList<Question>
-          entities={questions.filter((question) => !question.reward.sent)}
+          entities={unansweredQuestions}
           renderEntityCard={(question, i) => (
             <QuestionCard
               key={i}
@@ -134,7 +133,7 @@ export function QuestionsTabs(props: {
       </TabsContent>
       <TabsContent value="answered">
         <EntityList<Question>
-          entities={questions.filter((question) => question.reward.sent)}
+          entities={answeredQuestions}
           renderEntityCard={(question, i) => (
             <QuestionCard
               key={i}

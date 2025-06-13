@@ -80,7 +80,7 @@ export const questionManagerAbi = [
       {
         indexed: false,
         internalType: "uint256",
-        name: "value",
+        name: "reward",
         type: "uint256",
       },
       {
@@ -108,12 +108,6 @@ export const questionManagerAbi = [
         name: "tokenId",
         type: "bytes32",
       },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "value",
-        type: "uint256",
-      },
     ],
     name: "QuestionCancelled",
     type: "event",
@@ -129,12 +123,12 @@ export const questionManagerAbi = [
       },
       {
         indexed: false,
-        internalType: "bool",
-        name: "success",
-        type: "bool",
+        internalType: "enum QuestionManager.QuestionProcessingStatus",
+        name: "status",
+        type: "uint8",
       },
     ],
-    name: "QuestionVerified",
+    name: "QuestionProcessed",
     type: "event",
   },
   {
@@ -232,24 +226,12 @@ export const questionManagerAbi = [
         type: "bytes32",
       },
     ],
-    name: "getReward",
+    name: "getProcessingStatus",
     outputs: [
       {
-        components: [
-          {
-            internalType: "uint256",
-            name: "value",
-            type: "uint256",
-          },
-          {
-            internalType: "bool",
-            name: "sent",
-            type: "bool",
-          },
-        ],
-        internalType: "struct QuestionManager.Reward",
+        internalType: "enum QuestionManager.QuestionProcessingStatus",
         name: "",
-        type: "tuple",
+        type: "uint8",
       },
     ],
     stateMutability: "view",
@@ -263,24 +245,12 @@ export const questionManagerAbi = [
         type: "bytes32",
       },
     ],
-    name: "getVerification",
+    name: "getReward",
     outputs: [
       {
-        components: [
-          {
-            internalType: "bool",
-            name: "verified",
-            type: "bool",
-          },
-          {
-            internalType: "bool",
-            name: "status",
-            type: "bool",
-          },
-        ],
-        internalType: "struct QuestionManager.Verification",
+        internalType: "uint256",
         name: "",
-        type: "tuple",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -295,7 +265,7 @@ export const questionManagerAbi = [
       },
       {
         internalType: "address",
-        name: "verifierAddress",
+        name: "validatorAddress",
         type: "address",
       },
     ],
@@ -312,6 +282,51 @@ export const questionManagerAbi = [
         internalType: "address",
         name: "",
         type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "tokenId",
+        type: "bytes32",
+      },
+    ],
+    name: "processInvalidAnswer",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "tokenId",
+        type: "bytes32",
+      },
+    ],
+    name: "processValidAnswer",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "tokenId",
+        type: "bytes32",
+      },
+    ],
+    name: "processingStatuses",
+    outputs: [
+      {
+        internalType: "enum QuestionManager.QuestionProcessingStatus",
+        name: "",
+        type: "uint8",
       },
     ],
     stateMutability: "view",
@@ -349,13 +364,8 @@ export const questionManagerAbi = [
     outputs: [
       {
         internalType: "uint256",
-        name: "value",
+        name: "",
         type: "uint256",
-      },
-      {
-        internalType: "bool",
-        name: "sent",
-        type: "bool",
       },
     ],
     stateMutability: "view",
@@ -388,32 +398,8 @@ export const questionManagerAbi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "bytes32",
-        name: "tokenId",
-        type: "bytes32",
-      },
-    ],
-    name: "verifications",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "verified",
-        type: "bool",
-      },
-      {
-        internalType: "bool",
-        name: "status",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [],
-    name: "verifier",
+    name: "validator",
     outputs: [
       {
         internalType: "address",
@@ -422,24 +408,6 @@ export const questionManagerAbi = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "bytes32",
-        name: "tokenId",
-        type: "bytes32",
-      },
-      {
-        internalType: "bool",
-        name: "status",
-        type: "bool",
-      },
-    ],
-    name: "verify",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
 ] as const;

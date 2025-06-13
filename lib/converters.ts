@@ -1,3 +1,4 @@
+import { QuestionProcessingStatus } from "@/types/question";
 import { AxiosError } from "axios";
 import { ClassValue } from "clsx";
 import { parseEther } from "viem";
@@ -30,5 +31,18 @@ export function rewardToBadge(reward: bigint): {
     return { emoji: "💰", className: "bg-yellow-500" };
   } else {
     return { emoji: "💎", className: "bg-orange-500" };
+  }
+}
+
+export function processingStatusToType(
+  status: number
+): QuestionProcessingStatus {
+  switch (status) {
+    case 1:
+      return "AnswerInvalid";
+    case 2:
+      return "AnswerValidRewardSent";
+    default:
+      return "None";
   }
 }

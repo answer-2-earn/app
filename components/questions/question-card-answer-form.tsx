@@ -123,10 +123,12 @@ export function QuestionCardAnswerForm(props: {
     }
   }
 
-  if (props.question.reward.sent) {
+  // Don't show the form if answer is already valid and reward is sent
+  if (props.question.processingStatus === "AnswerValidRewardSent") {
     return <></>;
   }
 
+  // Don't show the form if the connected account is now the answerer
   if (accounts[0] !== props.profile.address) {
     return <></>;
   }

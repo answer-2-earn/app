@@ -2,12 +2,11 @@ import { Hex } from "viem";
 
 export type Question = {
   id: Hex;
-  reward: {
-    value: bigint;
-    sent: boolean;
-  };
-  verification: {
-    verified: boolean;
-    status: boolean;
-  };
+  reward: bigint;
+  processingStatus: QuestionProcessingStatus;
 };
+
+export type QuestionProcessingStatus =
+  | "None"
+  | "AnswerInvalid"
+  | "AnswerValidRewardSent";
