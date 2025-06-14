@@ -35,7 +35,10 @@ export default function AppNewQuestionPage() {
             Provide your email to receive a notification when an answer is
             posted
           </p>
-          <NotificationsEnableForm className="mt-4" />
+          <NotificationsEnableForm
+            answererAddress={contextAccounts[0]}
+            className="mt-4"
+          />
           <Confetti
             width={document.body.clientWidth}
             height={document.body.scrollHeight}
