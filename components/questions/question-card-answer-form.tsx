@@ -8,7 +8,7 @@ import { Question } from "@/types/question";
 import { QuestionAnswerMetadata } from "@/types/question-answer-metadata";
 import { QuestionMetadata } from "@/types/question-metadata";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { ArrowRightIcon, Loader2Icon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -101,13 +101,7 @@ export function QuestionCardAnswerForm(props: {
       props.onAnswer();
       toast("Answer posted 🎉");
     } catch (error) {
-      if (error instanceof AxiosError && error.status === 422) {
-        toast.error(
-          "Failed to verify answer with AI, please try another answer"
-        );
-      } else {
-        handleError(error, "Failed to submit the form, try again later");
-      }
+      handleError(error, "Failed to submit the form, try again later");
     } finally {
       setIsProsessing(false);
     }
