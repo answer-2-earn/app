@@ -1,13 +1,28 @@
 export type QuestionMetadata = {
-  name: string;
-  description: string;
-  image: string;
-  external_url?: string;
-  attributes?: QuestionMetadataAttribute[];
+  LSP4Metadata: {
+    name: string;
+    description: string;
+    links: QuestionMetadataLink[];
+    icon: [];
+    images: QuestionMetadataImage[][];
+    assets: [];
+    attributes: QuestionMetadataAttribute[];
+  };
+};
+
+export type QuestionMetadataLink = {
+  title: string;
+  url: string;
+};
+
+export type QuestionMetadataImage = {
+  width: number;
+  height: number;
+  url: string;
 };
 
 export type QuestionMetadataAttribute = {
-  trait_type: string;
-  value: string | number;
-  display_type?: string;
+  key: string;
+  value: string | number | boolean;
+  type: "string" | "number" | "boolean";
 };

@@ -25,11 +25,12 @@ export function QuestionCardQuestion(props: {
   const { handleError } = useError();
   const [isProsessing, setIsProsessing] = useState(false);
 
-  const questionText = props.questionMetadata.attributes?.find(
-    (attr) => attr.trait_type === "Question"
+  const questionText = props.questionMetadata.LSP4Metadata?.attributes?.find(
+    (attr) => attr.key === "Question"
   )?.value;
-  const questionDate = props.questionMetadata.attributes?.find(
-    (attr) => attr.trait_type === "Question Date"
+
+  const questionDate = props.questionMetadata.LSP4Metadata?.attributes?.find(
+    (attr) => attr.key === "Question Date"
   )?.value;
 
   const rewardBadge = rewardToBadge(BigInt(props.question.reward));

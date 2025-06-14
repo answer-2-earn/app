@@ -72,33 +72,54 @@ export function QuestionAskForm(props: {
 
       // Create metadata
       const metadata: QuestionMetadata = {
-        name: "Question Token",
-        description: "A token issued by the Answer 2 Earn project",
-        external_url: siteConfig.links.github,
-        image:
-          "ipfs://bafkreiahpktywfs64j6fpdu7cyl4yifj4ivxvudge3zuv7sga6qh3x7h74",
-        attributes: [
-          {
-            trait_type: "Asker",
-            value: accounts[0],
-          },
-          {
-            trait_type: "Question",
-            value: values.question,
-          },
-          {
-            trait_type: "Question Date",
-            value: new Date().getTime(),
-          },
-          {
-            trait_type: "Reward",
-            value: parseEther(values.reward.toString()).toString(),
-          },
-          {
-            trait_type: "Answerer",
-            value: props.answererAddress,
-          },
-        ],
+        LSP4Metadata: {
+          name: "Question Token",
+          description: "A token issued by the Answer 2 Earn project.",
+          links: [
+            {
+              title: "Website",
+              url: siteConfig.links.website,
+            },
+          ],
+          icon: [],
+          images: [
+            [
+              {
+                width: 256,
+                height: 256,
+                url: "ipfs://bafkreiahpktywfs64j6fpdu7cyl4yifj4ivxvudge3zuv7sga6qh3x7h74",
+              },
+            ],
+          ],
+          assets: [],
+          attributes: [
+            {
+              key: "Asker",
+              value: accounts[0],
+              type: "string",
+            },
+            {
+              key: "Question",
+              value: values.question,
+              type: "string",
+            },
+            {
+              key: "Question Date",
+              value: new Date().getTime(),
+              type: "number",
+            },
+            {
+              key: "Reward",
+              value: parseEther(values.reward.toString()).toString(),
+              type: "number",
+            },
+            {
+              key: "Answerer",
+              value: props.answererAddress,
+              type: "string",
+            },
+          ],
+        },
       };
 
       // Upload metadata to IPFS and get the URL

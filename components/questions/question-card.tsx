@@ -55,8 +55,8 @@ export function QuestionCard(props: {
 
   // Load asker profile
   useEffect(() => {
-    const askerAddress = questionMetadata?.attributes?.find(
-      (attr) => attr.trait_type === "Asker"
+    const askerAddress = questionMetadata?.LSP4Metadata?.attributes?.find(
+      (attr) => attr.key === "Asker"
     )?.value;
     if (askerAddress) {
       getProfile(askerAddress as Address)
