@@ -2,6 +2,7 @@ import { questionAbi } from "@/abi/question";
 import { questionManagerAbi } from "@/abi/question-manager";
 import { chainConfig } from "@/config/chain";
 import useError from "@/hooks/use-error";
+import { processingStatusToType } from "@/lib/converters";
 import { getProfile } from "@/lib/profile";
 import { cn } from "@/lib/utils";
 import { Profile } from "@/types/profile";
@@ -13,7 +14,6 @@ import EntityList from "../entity-list";
 import { Skeleton } from "../ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { QuestionCard } from "./question-card";
-import { processingStatusToType } from "@/lib/converters";
 
 // TODO: Sort questions by value
 export function QuestionsTabs(props: {
@@ -65,6 +65,8 @@ export function QuestionsTabs(props: {
           processingStatus: processingStatusToType(processingStatus),
         });
       }
+
+      console.log("Loaded questions:", questions);
 
       setQuestions(questions);
     } catch (error) {
