@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
 
+// TODO: Add action icon
 export function PageCover(props: {
   answererAddress: `0x${string}`;
   actionTitle: string;
