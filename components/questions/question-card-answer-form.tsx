@@ -2,9 +2,10 @@ import { questionManagerAbi } from "@/abi/question-manager";
 import { chainConfig } from "@/config/chain";
 import useError from "@/hooks/use-error";
 import { useUpProvider } from "@/hooks/use-up-provider";
-import { getEncodedQuestionMetadataValue } from "@/lib/metadata";
+import { getEncodedMetadataValue } from "@/lib/metadata";
 import { Profile } from "@/types/profile";
 import { Question } from "@/types/question";
+import { QuestionAnswerMetadata } from "@/types/question-answer-metadata";
 import { QuestionMetadata } from "@/types/question-metadata";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
@@ -20,7 +21,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "../ui/form";
 import { Separator } from "../ui/separator";
@@ -63,35 +63,25 @@ export function QuestionCardAnswerForm(props: {
         return;
       }
 
-      // Update the question metadata with the answer
-      const updatedMetadata = {
-        ...props.questionMetadata,
-        attributes: [
-          ...(props.questionMetadata.attributes || []),
-          {
-            trait_type: "Answer",
-            value: values.answer,
-          },
-          {
-            trait_type: "Answer Date",
-            value: new Date().getTime(),
-          },
-        ],
+      // Create metadata
+      const metadata: QuestionAnswerMetadata = {
+        answer: values.answer,
+        answerDate: new Date().getTime(),
       };
 
       // Upload metadata to IPFS and get the URL
       const { data } = await axios.post("/api/ipfs", {
-        data: JSON.stringify(updatedMetadata),
+        data: JSON.stringify(metadata),
       });
       const updatedUrl = data.data;
 
       // Encode metadata to get the metadata value
-      const encodedUpdatedMetadataValue = await getEncodedQuestionMetadataValue(
-        updatedMetadata,
+      const encodedUpdatedMetadataValue = await getEncodedMetadataValue(
+        metadata,
         updatedUrl
       );
 
-      // Ask the question by calling the smart contract
+      // Answer the question by calling the smart contract
       const publicClient = createPublicClient({
         chain: chainConfig.chain,
         transport: http(),
@@ -139,14 +129,13 @@ export function QuestionCardAnswerForm(props: {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
-          className="space-y-4 mt-4"
+          className="space-y-2 mt-4"
         >
           <FormField
             control={form.control}
             name="answer"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Answer *</FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder="My dream is..."
@@ -164,7 +153,9 @@ export function QuestionCardAnswerForm(props: {
             ) : (
               <ArrowRightIcon />
             )}
-            Post
+            {props.question.processingStatus === "AnswerInvalid"
+              ? "Update answer"
+              : "Answer"}
           </Button>
         </form>
       </Form>

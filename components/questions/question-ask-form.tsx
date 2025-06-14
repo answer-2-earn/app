@@ -4,7 +4,7 @@ import { siteConfig } from "@/config/site";
 import useError from "@/hooks/use-error";
 import { useUpProvider } from "@/hooks/use-up-provider";
 import { rewardToBadge } from "@/lib/converters";
-import { getEncodedQuestionMetadataValue } from "@/lib/metadata";
+import { getEncodedMetadataValue } from "@/lib/metadata";
 import { cn } from "@/lib/utils";
 import { QuestionMetadata } from "@/types/question-metadata";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -108,10 +108,7 @@ export function QuestionAskForm(props: {
       const url = data.data;
 
       // Encode metadata to get the metadata value
-      const encodedMetadataValue = await getEncodedQuestionMetadataValue(
-        metadata,
-        url
-      );
+      const encodedMetadataValue = await getEncodedMetadataValue(metadata, url);
 
       // Ask the question by calling the smart contract
       const publicClient = createPublicClient({

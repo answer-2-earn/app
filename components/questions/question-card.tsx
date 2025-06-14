@@ -1,8 +1,9 @@
 import useError from "@/hooks/use-error";
-import { getQuestionMetadata } from "@/lib/metadata";
+import { getQuestionAnswerMetadata, getQuestionMetadata } from "@/lib/metadata";
 import { getProfile } from "@/lib/profile";
 import { Profile } from "@/types/profile";
 import { Question } from "@/types/question";
+import { QuestionAnswerMetadata } from "@/types/question-answer-metadata";
 import { QuestionMetadata } from "@/types/question-metadata";
 import { useEffect, useState } from "react";
 import { Address } from "viem";
@@ -20,6 +21,9 @@ export function QuestionCard(props: {
   const [questionMetadata, setQuestionMetadata] = useState<
     QuestionMetadata | undefined
   >();
+  const [questionAnswerMetadata, setQuestionAnswerMetadata] = useState<
+    QuestionAnswerMetadata | undefined
+  >();
   const [askerProfile, setAskerProfile] = useState<Profile | undefined>();
 
   // Load question metadata
@@ -31,6 +35,21 @@ export function QuestionCard(props: {
       .catch((error) => {
         handleError(error, "Failed to load question metadata, try again later");
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.question]);
+
+  // Load question answer metadata
+  useEffect(() => {
+    getQuestionAnswerMetadata(props.question.id)
+      .then((metadata) => {
+        setQuestionAnswerMetadata(metadata);
+      })
+      .catch((error) =>
+        handleError(
+          error,
+          "Failed to load question answer metadata, try again later"
+        )
+      );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.question]);
 
@@ -49,7 +68,7 @@ export function QuestionCard(props: {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questionMetadata]);
 
-  if (!questionMetadata || !askerProfile) {
+  if (!questionMetadata || !questionAnswerMetadata || !askerProfile) {
     return <Skeleton className="w-full h-8" />;
   }
 
@@ -63,7 +82,7 @@ export function QuestionCard(props: {
       <QuestionCardAnswer
         answererProfile={props.answererProfile}
         question={props.question}
-        questionMetadata={questionMetadata}
+        questionAnswerMetadata={questionAnswerMetadata}
       />
       <QuestionCardAnswerForm
         answererProfile={props.answererProfile}

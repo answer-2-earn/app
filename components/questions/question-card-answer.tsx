@@ -1,27 +1,24 @@
-import { Profile } from "@/types/profile";
-import { Question } from "@/types/question";
-import { QuestionMetadata } from "@/types/question-metadata";
-import Image from "next/image";
-import { Separator } from "../ui/separator";
 import { processingStatusToBadge } from "@/lib/converters";
 import { cn } from "@/lib/utils";
+import { Profile } from "@/types/profile";
+import { Question } from "@/types/question";
+import { QuestionAnswerMetadata } from "@/types/question-answer-metadata";
+import Image from "next/image";
+import { Separator } from "../ui/separator";
 
 export function QuestionCardAnswer(props: {
   answererProfile: Profile;
   question: Question;
-  questionMetadata: QuestionMetadata;
+  questionAnswerMetadata: QuestionAnswerMetadata;
 }) {
-  const answerText = props.questionMetadata.attributes?.find(
-    (attr) => attr.trait_type === "Answer"
-  )?.value;
-  const answerDate = props.questionMetadata.attributes?.find(
-    (attr) => attr.trait_type === "Answer Date"
-  )?.value;
   const processingStatusBadge = processingStatusToBadge(
     props.question.processingStatus
   );
 
-  if (!answerText || !answerDate) {
+  if (
+    !props.questionAnswerMetadata.answer ||
+    !props.questionAnswerMetadata.answerDate
+  ) {
     return <></>;
   }
 
@@ -43,10 +40,12 @@ export function QuestionCardAnswer(props: {
         <div className="flex-1 flex flex-col items-start">
           {/* Date */}
           <p className="text-muted-foreground text-sm">
-            {new Date(answerDate as string).toLocaleString()}
+            {new Date(props.questionAnswerMetadata.answerDate).toLocaleString()}
           </p>
           {/* Answer */}
-          <h4 className="text-xl mt-1">{answerText}</h4>
+          <h4 className="text-xl mt-1">
+            {props.questionAnswerMetadata.answer}
+          </h4>
           {/* Processing status badge */}
           <div
             className={cn(

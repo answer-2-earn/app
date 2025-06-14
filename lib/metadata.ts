@@ -1,6 +1,8 @@
 import { questionAbi } from "@/abi/question";
+import { questionManagerAbi } from "@/abi/question-manager";
 import { chainConfig } from "@/config/chain";
 import { pinataIpfsToHttp } from "@/lib/ipfs";
+import { QuestionAnswerMetadata } from "@/types/question-answer-metadata";
 import { QuestionMetadata } from "@/types/question-metadata";
 import ERC725 from "@erc725/erc725.js";
 import axios from "axios";
@@ -55,8 +57,54 @@ export async function getQuestionMetadata(
   return data as QuestionMetadata;
 }
 
-export async function getEncodedQuestionMetadataValue(
-  metadata: QuestionMetadata,
+export async function getQuestionAnswerMetadata(
+  questionId: Hex
+): Promise<QuestionAnswerMetadata> {
+  // Load metadata value from the contract
+  const publicClient = createPublicClient({
+    chain: chainConfig.chain,
+    transport: http(),
+  });
+  const metadataValue = await publicClient.readContract({
+    address: chainConfig.contracts.questionManager,
+    abi: questionManagerAbi,
+    functionName: "getAnswer",
+    args: [questionId],
+  });
+
+  // Decode metadata value to get the metadata URL
+  const schema = [
+    {
+      name: "LSP4Metadata",
+      key: "0x9afb95cacc9f95858ec44aa8c3b685511002e30ae54415823f406128b85b238e",
+      keyType: "Singleton",
+      valueType: "bytes",
+      valueContent: "VerifiableURI",
+    },
+  ];
+  const erc725 = new ERC725(schema);
+  const decodedMetadataValue = erc725.decodeData([
+    {
+      keyName: "LSP4Metadata",
+      value: metadataValue,
+    },
+  ]);
+  const metadataValueUrl = decodedMetadataValue[0]?.value?.url;
+
+  // Define metadata HTTP URL
+  const metadataHttpUrl = pinataIpfsToHttp(metadataValueUrl);
+  if (!metadataHttpUrl) {
+    return { answer: "", answerDate: 0 };
+  }
+
+  // Load metadata from IPFS
+  const { data } = await axios.get(metadataHttpUrl);
+
+  return data as QuestionAnswerMetadata;
+}
+
+export async function getEncodedMetadataValue(
+  metadata: QuestionMetadata | QuestionAnswerMetadata,
   url: string
 ): Promise<Hex> {
   const schema = [

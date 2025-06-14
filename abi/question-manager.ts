@@ -152,6 +152,25 @@ export const questionManagerAbi = [
   {
     inputs: [
       {
+        internalType: "bytes32",
+        name: "tokenId",
+        type: "bytes32",
+      },
+    ],
+    name: "answers",
+    outputs: [
+      {
+        internalType: "bytes",
+        name: "",
+        type: "bytes",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "answerer",
         type: "address",
@@ -197,6 +216,25 @@ export const questionManagerAbi = [
     name: "cancel",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "tokenId",
+        type: "bytes32",
+      },
+    ],
+    name: "getAnswer",
+    outputs: [
+      {
+        internalType: "bytes",
+        name: "",
+        type: "bytes",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
