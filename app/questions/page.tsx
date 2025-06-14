@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { useUpProvider } from "@/hooks/use-up-provider";
 
 export default function AppQuestionsPage() {
-  const { contextAccounts } = useUpProvider();
+  const { accounts, contextAccounts } = useUpProvider();
 
   if (contextAccounts.length === 0) {
     return <LoadingSection />;
@@ -16,11 +16,16 @@ export default function AppQuestionsPage() {
 
   return (
     <main className="container mx-auto px-4 py-4">
-      {/* TODO: Display action to enable notifications if connected account is answerer */}
       <PageCover
         answererAddress={contextAccounts[0]}
-        actionTitle="Ask question"
-        actionLink="/questions/new"
+        actionTitle={
+          accounts[0] === contextAccounts[0] ? "Notifications" : "Ask question"
+        }
+        actionLink={
+          accounts[0] === contextAccounts[0]
+            ? "/notifications"
+            : "/questions/new"
+        }
       />
       <p className="text-xl font-semibold tracking-tight mt-8">QUESTIONS</p>
       <Separator className="mt-2" />
