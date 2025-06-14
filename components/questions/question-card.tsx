@@ -78,6 +78,7 @@ export function QuestionCard(props: {
         question={props.question}
         questionMetadata={questionMetadata}
         askerProfile={askerProfile}
+        onCancel={props.onQuestionUpdate}
       />
       <QuestionCardAnswer
         answererProfile={props.answererProfile}
