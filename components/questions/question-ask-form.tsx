@@ -58,7 +58,7 @@ export function QuestionAskForm(props: {
     try {
       setIsProsessing(true);
 
-      // Check if the user is connected to the wallet and the correct network
+      // Check if the user is connected the wallet and the network is correct
       if (!client || !walletConnected) {
         toast.warning("Please connect your wallet first");
         return;
