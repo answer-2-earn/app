@@ -1,5 +1,6 @@
 import { createFailedApiResponse, createSuccessApiResponse } from "@/lib/api";
 import { errorToString } from "@/lib/converters";
+import { insertSubscription } from "@/mongodb/services/subscription-service";
 import { NextRequest } from "next/server";
 import { z } from "zod";
 
@@ -24,8 +25,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Save subscription in the database
-    // TODO: Implement
-    console.log(`Body ${JSON.stringify(bodyParseResult.data)} `);
+    await insertSubscription({ created: new Date(), ...bodyParseResult.data });
 
     // Return success response
     return createSuccessApiResponse("Success");
