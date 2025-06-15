@@ -1,3 +1,4 @@
+import { pinataConfig } from "@/config/pinata";
 import { createFailedApiResponse, createSuccessApiResponse } from "@/lib/api";
 import { errorToString } from "@/lib/converters";
 import { NextRequest } from "next/server";
@@ -25,10 +26,11 @@ export async function POST(request: NextRequest) {
     // Upload request data to IPFS
     const pinata = new PinataSDK({
       pinataJwt: process.env.PINATA_JWT,
-      pinataGateway: "https://yellow-mute-echidna-168.mypinata.cloud/ipfs/",
+      pinataGateway: pinataConfig.gateway,
     });
     const upload = await pinata.upload.public.json(
-      JSON.parse(bodyParseResult.data.data)
+      JSON.parse(bodyParseResult.data.data),
+      { groupId: pinataConfig.groupId }
     );
 
     // Return IPFS URL
