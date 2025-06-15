@@ -1,12 +1,71 @@
 import { questionAbi } from "@/abi/question";
 import { questionManagerAbi } from "@/abi/question-manager";
 import { chainConfig } from "@/config/chain";
+import { siteConfig } from "@/config/site";
 import { pinataIpfsToHttp } from "@/lib/ipfs";
 import { QuestionAnswerMetadata } from "@/types/question-answer-metadata";
 import { QuestionMetadata } from "@/types/question-metadata";
 import ERC725 from "@erc725/erc725.js";
 import axios from "axios";
 import { createPublicClient, Hex, http } from "viem";
+
+export function createQuestionMetadata(
+  asker: `0x${string}`,
+  question: string,
+  reward: string,
+  answerer: `0x${string}`
+): QuestionMetadata {
+  return {
+    LSP4Metadata: {
+      name: "Question Token",
+      description: "A token issued by the Answer 2 Earn project.",
+      links: [
+        {
+          title: "Website",
+          url: siteConfig.links.website,
+        },
+      ],
+      icon: [],
+      images: [
+        [
+          {
+            width: 512,
+            height: 512,
+            url: "ipfs://bafkreiedefseafrpqw6kkq2sryaayhd5hcxsfebmlwwxpfpgc7vmsqkgbm",
+          },
+        ],
+      ],
+      assets: [],
+      attributes: [
+        {
+          key: "Asker",
+          value: asker,
+          type: "string",
+        },
+        {
+          key: "Question",
+          value: question,
+          type: "string",
+        },
+        {
+          key: "Question Date",
+          value: new Date().getTime(),
+          type: "number",
+        },
+        {
+          key: "Reward",
+          value: reward,
+          type: "string",
+        },
+        {
+          key: "Answerer",
+          value: answerer,
+          type: "string",
+        },
+      ],
+    },
+  };
+}
 
 export async function getQuestionMetadata(
   questionId: Hex

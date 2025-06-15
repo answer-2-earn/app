@@ -1,12 +1,13 @@
 import { questionManagerAbi } from "@/abi/question-manager";
 import { chainConfig } from "@/config/chain";
-import { siteConfig } from "@/config/site";
 import useError from "@/hooks/use-error";
 import { useUpProvider } from "@/hooks/use-up-provider";
 import { rewardToBadge } from "@/lib/converters";
-import { getEncodedMetadataValue } from "@/lib/metadata";
+import {
+  createQuestionMetadata,
+  getEncodedMetadataValue,
+} from "@/lib/metadata";
 import { cn } from "@/lib/utils";
-import { QuestionMetadata } from "@/types/question-metadata";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { ClassValue } from "clsx";
@@ -71,56 +72,12 @@ export function QuestionAskForm(props: {
       }
 
       // Create metadata
-      const metadata: QuestionMetadata = {
-        LSP4Metadata: {
-          name: "Question Token",
-          description: "A token issued by the Answer 2 Earn project.",
-          links: [
-            {
-              title: "Website",
-              url: siteConfig.links.website,
-            },
-          ],
-          icon: [],
-          images: [
-            [
-              {
-                width: 512,
-                height: 512,
-                url: "ipfs://bafkreiedefseafrpqw6kkq2sryaayhd5hcxsfebmlwwxpfpgc7vmsqkgbm",
-              },
-            ],
-          ],
-          assets: [],
-          attributes: [
-            {
-              key: "Asker",
-              value: accounts[0],
-              type: "string",
-            },
-            {
-              key: "Question",
-              value: values.question,
-              type: "string",
-            },
-            {
-              key: "Question Date",
-              value: new Date().getTime(),
-              type: "number",
-            },
-            {
-              key: "Reward",
-              value: parseEther(values.reward.toString()).toString(),
-              type: "number",
-            },
-            {
-              key: "Answerer",
-              value: props.answererAddress,
-              type: "string",
-            },
-          ],
-        },
-      };
+      const metadata = createQuestionMetadata(
+        accounts[0],
+        values.question,
+        parseEther(values.reward.toString()).toString(),
+        props.answererAddress
+      );
 
       // Upload metadata to IPFS and get the URL
       const { data } = await axios.post("/api/ipfs", {
