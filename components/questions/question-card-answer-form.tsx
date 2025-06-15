@@ -76,7 +76,7 @@ export function QuestionCardAnswerForm(props: {
       const updatedUrl = data.data;
 
       // Encode metadata to get the metadata value
-      const encodedUpdatedMetadataValue = await getEncodedMetadataValue(
+      const encodedUpdatedMetadataValue = getEncodedMetadataValue(
         metadata,
         updatedUrl
       );

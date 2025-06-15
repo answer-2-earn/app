@@ -103,10 +103,10 @@ export async function getQuestionAnswerMetadata(
   return data as QuestionAnswerMetadata;
 }
 
-export async function getEncodedMetadataValue(
+export function getEncodedMetadataValue(
   metadata: QuestionMetadata | QuestionAnswerMetadata,
   url: string
-): Promise<Hex> {
+): Hex {
   const schema = [
     {
       name: "LSP4Metadata",

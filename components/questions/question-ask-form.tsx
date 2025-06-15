@@ -129,7 +129,7 @@ export function QuestionAskForm(props: {
       const url = data.data;
 
       // Encode metadata to get the metadata value
-      const encodedMetadataValue = await getEncodedMetadataValue(metadata, url);
+      const encodedMetadataValue = getEncodedMetadataValue(metadata, url);
 
       // Ask the question by calling the smart contract
       const publicClient = createPublicClient({
