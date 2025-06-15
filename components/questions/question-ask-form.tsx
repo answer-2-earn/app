@@ -85,9 +85,9 @@ export function QuestionAskForm(props: {
           images: [
             [
               {
-                width: 256,
-                height: 256,
-                url: "ipfs://bafkreiahpktywfs64j6fpdu7cyl4yifj4ivxvudge3zuv7sga6qh3x7h74",
+                width: 512,
+                height: 512,
+                url: "ipfs://bafkreiedefseafrpqw6kkq2sryaayhd5hcxsfebmlwwxpfpgc7vmsqkgbm",
               },
             ],
           ],
