@@ -58,10 +58,12 @@ export function NotificationsEnableForm(props: {
       });
 
       // Capture the event in PostHog
-      posthog.capture("notifications_enabled", {
-        answererAddress: props.answererAddress,
-        subscriberAddress: accounts[0],
-      });
+      if (posthog) {
+        posthog.capture("notifications_enabled", {
+          answererAddress: props.answererAddress,
+          subscriberAddress: accounts[0],
+        });
+      }
 
       // Reset the form and call the onAsk callback
       form.reset();

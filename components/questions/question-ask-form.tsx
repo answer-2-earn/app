@@ -107,10 +107,12 @@ export function QuestionAskForm(props: {
       await publicClient.waitForTransactionReceipt({ hash: txHash });
 
       // Capture the event in PostHog
-      posthog.capture("question_asked", {
-        answererAddress: props.answererAddress,
-        askerAddress: accounts[0],
-      });
+      if (posthog) {
+        posthog.capture("question_asked", {
+          answererAddress: props.answererAddress,
+          askerAddress: accounts[0],
+        });
+      }
 
       // Reset the form and call the onAsk callback
       form.reset();

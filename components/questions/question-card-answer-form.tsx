@@ -99,9 +99,11 @@ export function QuestionCardAnswerForm(props: {
       await publicClient.waitForTransactionReceipt({ hash });
 
       // Capture the event in PostHog
-      posthog.capture("question_answered", {
-        answererAddress: props.answererProfile.address,
-      });
+      if (posthog) {
+        posthog.capture("question_answered", {
+          answererAddress: props.answererProfile.address,
+        });
+      }
 
       // Reset the form and notify the user
       form.reset();
