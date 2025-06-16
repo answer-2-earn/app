@@ -15,7 +15,6 @@ import { Skeleton } from "../ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { QuestionCard } from "./question-card";
 
-// TODO: Sort questions by value
 export function QuestionsTabs(props: {
   answererAddress: `0x${string}`;
   className?: ClassValue;
