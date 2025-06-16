@@ -1,3 +1,4 @@
+import { PostHogProvider } from "@/components/post-hog-provider";
 import { UpProvider } from "@/components/up-provider";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
@@ -41,8 +42,12 @@ export default function RootLayout({
           geistMono.variable
         )}
       >
-        <UpProvider>{children}</UpProvider>
-        <Toaster />
+        <PostHogProvider>
+          <UpProvider>
+            {children}
+            <Toaster />
+          </UpProvider>
+        </PostHogProvider>
       </body>
     </html>
   );
