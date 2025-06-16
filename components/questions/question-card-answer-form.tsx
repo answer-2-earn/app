@@ -9,7 +9,7 @@ import { QuestionAnswerMetadata } from "@/types/question-answer-metadata";
 import { QuestionMetadata } from "@/types/question-metadata";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { ArrowRightIcon, Loader2Icon } from "lucide-react";
+import { Loader2Icon, PencilIcon } from "lucide-react";
 import { usePostHog } from "posthog-js/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -152,7 +152,7 @@ export function QuestionCardAnswerForm(props: {
             {isProsessing ? (
               <Loader2Icon className="animate-spin" />
             ) : (
-              <ArrowRightIcon />
+              <PencilIcon />
             )}
             {props.question.processingStatus === "AnswerInvalid"
               ? "Update answer"

@@ -1,16 +1,15 @@
 import useError from "@/hooks/use-error";
 import { getProfile } from "@/lib/profile";
 import { Profile } from "@/types/profile";
-import { MenuIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
 
-// TODO: Add action icon
 export function PageCover(props: {
   answererAddress: `0x${string}`;
+  actionIcon?: React.ReactNode;
   actionTitle: string;
   actionLink: string;
 }) {
@@ -51,12 +50,11 @@ export function PageCover(props: {
       </p>
       <div className="flex flex-row items-center gap-2 mt-8">
         <Link href={props.actionLink}>
-          <Button variant="outline">{props.actionTitle}</Button>
+          <Button variant="outline">
+            {props.actionIcon}
+            {props.actionTitle}
+          </Button>
         </Link>
-        {/* TODO: Implement menu */}
-        <Button variant="outline">
-          <MenuIcon />
-        </Button>
       </div>
     </div>
   );

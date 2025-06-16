@@ -5,6 +5,7 @@ import { NotificationsEnableForm } from "@/components/notifications/notification
 import { PageCover } from "@/components/page-cover";
 import { Separator } from "@/components/ui/separator";
 import { useUpProvider } from "@/hooks/use-up-provider";
+import { AlignLeftIcon } from "lucide-react";
 
 export default function NotificationsPage() {
   const { contextAccounts } = useUpProvider();
@@ -17,6 +18,7 @@ export default function NotificationsPage() {
     <main className="container mx-auto px-4 py-4">
       <PageCover
         answererAddress={contextAccounts[0]}
+        actionIcon={<AlignLeftIcon />}
         actionTitle="Questions"
         actionLink="/questions"
       />

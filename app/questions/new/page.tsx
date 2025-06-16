@@ -7,6 +7,7 @@ import { PageFooter } from "@/components/page-footer";
 import { QuestionAskForm } from "@/components/questions/question-ask-form";
 import { Separator } from "@/components/ui/separator";
 import { useUpProvider } from "@/hooks/use-up-provider";
+import { AlignLeftIcon } from "lucide-react";
 import { useState } from "react";
 import Confetti from "react-confetti";
 
@@ -22,6 +23,7 @@ export default function AppNewQuestionPage() {
     <main className="container mx-auto px-4 py-4">
       <PageCover
         answererAddress={contextAccounts[0]}
+        actionIcon={<AlignLeftIcon />}
         actionTitle="Questions"
         actionLink="/questions"
       />

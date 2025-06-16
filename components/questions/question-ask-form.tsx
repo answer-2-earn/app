@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { ClassValue } from "clsx";
-import { ArrowRightIcon, Loader2Icon } from "lucide-react";
+import { Loader2Icon, PencilIcon } from "lucide-react";
 import { usePostHog } from "posthog-js/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -179,7 +179,7 @@ export function QuestionAskForm(props: {
           {isProsessing ? (
             <Loader2Icon className="animate-spin" />
           ) : (
-            <ArrowRightIcon />
+            <PencilIcon />
           )}
           Ask
         </Button>

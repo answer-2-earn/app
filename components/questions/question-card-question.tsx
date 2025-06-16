@@ -7,14 +7,14 @@ import { cn } from "@/lib/utils";
 import { Profile } from "@/types/profile";
 import { Question } from "@/types/question";
 import { QuestionMetadata } from "@/types/question-metadata";
-import { Loader2Icon, TrashIcon } from "lucide-react";
+import { CircleXIcon, Loader2Icon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePostHog } from "posthog-js/react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { createPublicClient, formatEther, http } from "viem";
 import { Button } from "../ui/button";
-import { usePostHog } from "posthog-js/react";
 
 export function QuestionCardQuestion(props: {
   question: Question;
@@ -118,7 +118,7 @@ export function QuestionCardQuestion(props: {
           {/* Reward badge */}
           <div
             className={cn(
-              "flex items-center justify-center px-2 rounded-md h-full",
+              "flex items-center justify-center px-2 py-1 rounded-md h-full",
               rewardBadge.className
             )}
           >
@@ -139,7 +139,7 @@ export function QuestionCardQuestion(props: {
                 {isProsessing ? (
                   <Loader2Icon className="animate-spin" />
                 ) : (
-                  <TrashIcon />
+                  <CircleXIcon />
                 )}
                 Cancel
               </Button>
