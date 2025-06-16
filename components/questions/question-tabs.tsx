@@ -66,6 +66,14 @@ export function QuestionsTabs(props: {
         });
       }
 
+      // Sort questions by rewards
+      questions.sort((a, b) => {
+        if (a.reward === b.reward) {
+          return 0;
+        }
+        return a.reward > b.reward ? -1 : 1;
+      });
+
       console.log("Loaded questions:", questions);
 
       setQuestions(questions);
