@@ -4,6 +4,7 @@ import {
   createClientUPProvider,
   type UPClientProvider,
 } from "@lukso/up-provider";
+import { usePostHog } from "posthog-js/react";
 import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
 import { createWalletClient, custom } from "viem";
 import { lukso, luksoTestnet } from "viem/chains";
@@ -29,6 +30,7 @@ const provider =
   typeof window !== "undefined" ? createClientUPProvider() : null;
 
 export function UpProvider({ children }: UpProviderProps) {
+  const posthog = usePostHog();
   const [chainId, setChainId] = useState<number>(0);
   const [accounts, setAccounts] = useState<`0x${string}`[]>([]);
   const [contextAccounts, setContextAccounts] = useState<`0x${string}`[]>([]);
@@ -119,6 +121,16 @@ export function UpProvider({ children }: UpProviderProps) {
     // then the length or the whole array. Unfortunately react doesn't properly
     // look at array values like vue or knockout
   }, [client, account, contextAccount]);
+
+  // Register the account and context account in PostHog
+  useEffect(() => {
+    if (posthog) {
+      posthog.register({
+        account: accounts[0],
+        context_account: contextAccounts[0],
+      });
+    }
+  }, [posthog, accounts, contextAccounts]);
 
   const data = useMemo(() => {
     return {

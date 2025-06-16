@@ -100,9 +100,7 @@ export function QuestionCardAnswerForm(props: {
 
       // Capture the event in PostHog
       if (posthog) {
-        posthog.capture("question_answered", {
-          answererAddress: props.answererProfile.address,
-        });
+        posthog.capture("question_answered");
       }
 
       // Reset the form and notify the user

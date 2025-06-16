@@ -108,10 +108,7 @@ export function QuestionAskForm(props: {
 
       // Capture the event in PostHog
       if (posthog) {
-        posthog.capture("question_asked", {
-          answererAddress: props.answererAddress,
-          askerAddress: accounts[0],
-        });
+        posthog.capture("question_asked");
       }
 
       // Reset the form and call the onAsk callback
