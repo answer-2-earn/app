@@ -10,6 +10,7 @@ import { QuestionMetadata } from "@/types/question-metadata";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { ArrowRightIcon, Loader2Icon } from "lucide-react";
+import { usePostHog } from "posthog-js/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -32,6 +33,7 @@ export function QuestionCardAnswerForm(props: {
   questionMetadata: QuestionMetadata;
   onAnswer: () => void;
 }) {
+  const posthog = usePostHog();
   const { client, accounts, walletConnected } = useUpProvider();
   const { handleError } = useError();
   const [isProsessing, setIsProsessing] = useState(false);
@@ -95,6 +97,11 @@ export function QuestionCardAnswerForm(props: {
       });
       const hash = await client.writeContract(request);
       await publicClient.waitForTransactionReceipt({ hash });
+
+      // Capture the event in PostHog
+      posthog.capture("question_answered", {
+        answererAddress: props.answererProfile.address,
+      });
 
       // Reset the form and notify the user
       form.reset();

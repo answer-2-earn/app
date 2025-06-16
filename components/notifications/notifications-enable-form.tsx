@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { ClassValue } from "clsx";
 import { BellIcon, Loader2Icon } from "lucide-react";
+import { usePostHog } from "posthog-js/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -23,6 +24,7 @@ export function NotificationsEnableForm(props: {
   answererAddress: `0x${string}`;
   className?: ClassValue;
 }) {
+  const posthog = usePostHog();
   const { accounts, walletConnected } = useUpProvider();
   const { handleError } = useError();
   const [isProsessing, setIsProsessing] = useState(false);
@@ -53,6 +55,12 @@ export function NotificationsEnableForm(props: {
         answererAddress: props.answererAddress,
         subscriberAddress: accounts[0],
         subscriberEmail: values.email,
+      });
+
+      // Capture the event in PostHog
+      posthog.capture("notifications_enabled", {
+        answererAddress: props.answererAddress,
+        subscriberAddress: accounts[0],
       });
 
       // Reset the form and call the onAsk callback

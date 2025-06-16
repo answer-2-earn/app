@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { ClassValue } from "clsx";
 import { ArrowRightIcon, Loader2Icon } from "lucide-react";
+import { usePostHog } from "posthog-js/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -34,6 +35,7 @@ export function QuestionAskForm(props: {
   onAsk: (txHash: `0x${string}`) => void;
   className?: ClassValue;
 }) {
+  const posthog = usePostHog();
   const { client, accounts, walletConnected } = useUpProvider();
   const { handleError } = useError();
   const [isProsessing, setIsProsessing] = useState(false);
@@ -103,6 +105,12 @@ export function QuestionAskForm(props: {
       });
       const txHash = await client.writeContract(request);
       await publicClient.waitForTransactionReceipt({ hash: txHash });
+
+      // Capture the event in PostHog
+      posthog.capture("question_asked", {
+        answererAddress: props.answererAddress,
+        askerAddress: accounts[0],
+      });
 
       // Reset the form and call the onAsk callback
       form.reset();
