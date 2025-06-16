@@ -35,6 +35,7 @@ export function rewardToBadge(reward: bigint): {
 }
 
 export function processingStatusToBadge(status: QuestionProcessingStatus): {
+  emoji: string;
   title: string;
   divClassName: ClassValue;
   pClassName: ClassValue;
@@ -42,19 +43,22 @@ export function processingStatusToBadge(status: QuestionProcessingStatus): {
   switch (status) {
     case "AnswerValidRewardSent":
       return {
-        title: "✅ Verified by AI",
+        emoji: "✅",
+        title: "Answer verification by AI failed, reward not sent",
         divClassName: "bg-green-100",
         pClassName: "text-green-500",
       };
     case "AnswerInvalid":
       return {
-        title: "❌ Verification by AI failed",
+        emoji: "❌",
+        title: "Verification by AI failed",
         divClassName: "bg-red-100",
         pClassName: "text-red-500",
       };
     default:
       return {
-        title: "⌛ Verification by AI in progress",
+        emoji: "⌛",
+        title: "Reward will be sent after the answer is verified by AI",
         divClassName: "bg-yellow-100",
         pClassName: "text-yellow-500",
       };

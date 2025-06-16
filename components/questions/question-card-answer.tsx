@@ -49,10 +49,11 @@ export function QuestionCardAnswer(props: {
           {/* Processing status badge */}
           <div
             className={cn(
-              "rounded-md px-2 py-1 mt-2",
+              "flex flex-row items-center gap-2 rounded-md px-2 py-1 mt-2",
               processingStatusBadge.divClassName
             )}
           >
+            <p>{processingStatusBadge.emoji}</p>
             <p className={cn("text-sm", processingStatusBadge.pClassName)}>
               {processingStatusBadge.title}
             </p>
