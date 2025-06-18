@@ -12,8 +12,8 @@ const chainConfigTestnet: ChainConfig = {
 const chainConfigMainnet: ChainConfig = {
   chain: lukso,
   contracts: {
-    question: "0x0000000000000000000000000000000000000000",
-    questionManager: "0x0000000000000000000000000000000000000000",
+    question: "0x67e3648A46f970f91D2989643bF8479b76795Bb2",
+    questionManager: "0xe9b3E53Cd4f92DE36aF02e9B763c3Fe5eb02ee0C",
   },
 };
 
