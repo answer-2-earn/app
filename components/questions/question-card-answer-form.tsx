@@ -139,7 +139,7 @@ export function QuestionCardAnswerForm(props: {
               <FormItem>
                 <FormControl>
                   <Textarea
-                    placeholder="My dream is..."
+                    placeholder="What's your answer?"
                     disabled={isProsessing}
                     {...field}
                   />

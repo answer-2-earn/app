@@ -135,7 +135,7 @@ export function QuestionAskForm(props: {
               <FormLabel>Question *</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="What’s your dream?"
+                  placeholder="What's your question?"
                   disabled={isProsessing}
                   {...field}
                 />
