@@ -1,3 +1,4 @@
+import { chainConfig } from "@/config/chain";
 import { siteConfig } from "@/config/site";
 
 export function LandingFooter() {
@@ -14,7 +15,7 @@ export function LandingFooter() {
           >
             kiv1n
           </a>{" "}
-          © 2025
+          © 2025 · {chainConfig.chain.name}
         </p>
       </div>
     </footer>
