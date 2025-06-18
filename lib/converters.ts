@@ -44,14 +44,14 @@ export function processingStatusToBadge(status: QuestionProcessingStatus): {
     case "AnswerValidRewardSent":
       return {
         emoji: "✅",
-        title: "Answer verification by AI failed, reward not sent",
+        title: "Answer verification by AI succeeded, reward sent",
         divClassName: "bg-green-100",
         pClassName: "text-green-500",
       };
     case "AnswerInvalid":
       return {
         emoji: "❌",
-        title: "Verification by AI failed",
+        title: "Answer verification by AI failed, reward not sent",
         divClassName: "bg-red-100",
         pClassName: "text-red-500",
       };
