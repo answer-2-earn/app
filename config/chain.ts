@@ -4,8 +4,8 @@ import { lukso, luksoTestnet } from "viem/chains";
 const chainConfigTestnet: ChainConfig = {
   chain: luksoTestnet,
   contracts: {
-    question: "0x0E8677B7E1d529a3c5CdCd17D79013A085625cC0",
-    questionManager: "0xEeD3a236ba83E91f357C2c348384CbB91b331AD7",
+    question: "0xCd0A759BdD491355E6d6Fdd6c83c2198a5Dcc299",
+    questionManager: "0xd16b351c93f802135e34E065B53E5af400519bb0",
   },
 };
 

@@ -35,6 +35,19 @@ export const questionManagerAbi = [
     anonymous: false,
     inputs: [
       {
+        indexed: false,
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "Paused",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
         indexed: true,
         internalType: "address",
         name: "answerer",
@@ -129,6 +142,19 @@ export const questionManagerAbi = [
       },
     ],
     name: "QuestionProcessed",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "Unpaused",
     type: "event",
   },
   {
@@ -326,6 +352,26 @@ export const questionManagerAbi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "pause",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "paused",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "bytes32",
@@ -412,6 +458,37 @@ export const questionManagerAbi = [
   {
     inputs: [
       {
+        internalType: "bytes32",
+        name: "dataKey",
+        type: "bytes32",
+      },
+      {
+        internalType: "bytes",
+        name: "dataValue",
+        type: "bytes",
+      },
+    ],
+    name: "setQuestionData",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newValidator",
+        type: "address",
+      },
+    ],
+    name: "setValidator",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "newOwner",
         type: "address",
@@ -431,6 +508,13 @@ export const questionManagerAbi = [
       },
     ],
     name: "transferQuestionOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "unpause",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
